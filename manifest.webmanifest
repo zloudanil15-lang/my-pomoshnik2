@@ -1,10 +1,20 @@
 {
+  "id": "./",
   "name": "Умный помощник для Тилека",
   "short_name": "Помощник Тилека",
   "description": "Расписание, задания, заметки, цели и таймер учёбы.",
-  "start_url": "./index.html",
+  "start_url": "./",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#f4f6fc",
   "theme_color": "#4f6bed",
-  "lang": "ru"
+  "lang": "ru",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
 }
