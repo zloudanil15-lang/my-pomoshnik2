@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#4f6bed">
+<title>Умный помощник для Тилека</title>
+<style>
+:root{--blue:#4f6bed;--purple:#8068e8;--ink:#202744;--muted:#7d849e;--bg:#f4f6fc;--card:#fff;--line:#e9ecf5;--green:#26a879}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:Inter,"Segoe UI",Arial,sans-serif;color:var(--ink)}
+.app{max-width:1100px;margin:auto;min-height:100vh;display:grid;grid-template-columns:230px 1fr;background:var(--bg)}
+aside{background:#fff;border-right:1px solid var(--line);padding:26px 16px;display:flex;flex-direction:column;gap:24px}
+.brand{display:flex;align-items:center;gap:10px;padding:0 10px;font-size:19px;font-weight:800}.logo{width:38px;height:38px;border-radius:13px;background:linear-gradient(135deg,var(--blue),var(--purple));color:white;display:grid;place-items:center;font-size:20px;box-shadow:0 6px 14px #6578ed44}
+nav{display:grid;gap:7px}.nav{border:0;background:transparent;color:var(--muted);text-align:left;padding:12px;border-radius:12px;font-size:14px;cursor:pointer;display:flex;gap:12px;align-items:center}.nav.active,.nav:hover{background:#eef1ff;color:var(--blue);font-weight:700}.nav span{font-size:18px;width:23px;text-align:center}
+.side-note{margin-top:auto;background:#f2f3ff;padding:16px;border-radius:16px;font-size:12px;color:#697095;line-height:1.6}.side-note strong{display:block;color:var(--ink);font-size:14px;margin-bottom:5px}
+main{padding:30px;min-width:0}.top{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:25px}.eyebrow{color:var(--muted);font-size:13px;margin-bottom:5px}.top h1{font-size:27px;margin:0}.avatar{width:43px;height:43px;border-radius:15px;background:#e7eaff;color:var(--blue);display:grid;place-items:center;font-weight:800}
+.hero{background:linear-gradient(115deg,#4f6bed,#7969e8);border-radius:22px;padding:25px;color:white;display:flex;justify-content:space-between;align-items:center;gap:20px;overflow:hidden;position:relative;box-shadow:0 12px 28px #5369df26}.hero h2{margin:0 0 8px;font-size:23px}.hero p{margin:0;color:#e9eaff;font-size:14px;line-height:1.5}.hero .hero-icon{font-size:66px;opacity:.9}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:20px 0}.stat,.panel,.tile{background:var(--card);border:1px solid var(--line);border-radius:17px;padding:18px}.stat .label{font-size:12px;color:var(--muted)}.stat .num{font-size:26px;font-weight:800;margin:9px 0 3px}.stat small{color:var(--green);font-size:12px}
+.content-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:16px}.panel h3{margin:0 0 16px;font-size:16px}.panel-head{display:flex;align-items:center;justify-content:space-between;gap:8px}.muted{color:var(--muted);font-size:12px}
+.row{display:flex;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}.row:last-child{border-bottom:0}.dot{width:10px;height:10px;border-radius:50%;background:var(--blue);flex-shrink:0}.row strong{font-size:13px}.row small{display:block;color:var(--muted);font-size:12px;margin-top:4px}.empty{color:var(--muted);font-size:13px;padding:12px 0}
+button,input,textarea,select{font:inherit}button{cursor:pointer}.primary{background:var(--blue);color:white;border:0;border-radius:10px;padding:10px 14px;font-weight:700}.secondary{background:#eef1ff;color:var(--blue);border:0;border-radius:10px;padding:9px 12px;font-weight:700}.danger{background:#fff0f0;color:#c74747;border:0;border-radius:8px;padding:7px 9px}
+.page{display:none}.page.active{display:block}.form{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 18px}.form input,.form textarea,.form select{border:1px solid var(--line);border-radius:10px;background:white;padding:11px;color:var(--ink);min-width:0;flex:1}.form textarea{width:100%;min-height:90px;resize:vertical}.list-item{background:white;border:1px solid var(--line);border-radius:13px;padding:13px;margin:9px 0;display:flex;align-items:center;gap:10px}.list-item .body{flex:1;min-width:0}.list-item strong{font-size:14px;overflow-wrap:anywhere}.list-item small{display:block;color:var(--muted);margin-top:4px;font-size:12px}.list-item.done strong{text-decoration:line-through;color:#9ca2b6}.check{accent-color:var(--blue);width:18px;height:18px}.note-card{background:white;border:1px solid var(--line);border-radius:13px;padding:15px;margin:10px 0}.note-card p{white-space:pre-wrap;overflow-wrap:anywhere;margin:8px 0 12px;color:#626a85;font-size:14px}.timer-box{text-align:center;padding:28px 10px}.time{font-size:64px;font-weight:800;letter-spacing:2px;margin:15px 0;color:var(--blue)}.timer-controls{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}.progress{height:8px;border-radius:20px;background:#edf0fa;overflow:hidden;margin:16px 0}.progress div{height:100%;background:linear-gradient(90deg,var(--blue),var(--purple));width:0;transition:width .3s}.goal-row{display:flex;gap:10px;align-items:center}.goal-row input{width:18px;height:18px;accent-color:var(--green)}
+footer{text-align:center;color:#a0a5b7;font-size:11px;margin-top:25px}
+@media(max-width:760px){.app{display:block}aside{padding:12px;position:sticky;top:0;z-index:5;border-right:0;border-bottom:1px solid var(--line)}.brand{padding:0 4px}.brand .logo{width:32px;height:32px}nav{display:flex;overflow-x:auto;gap:4px}.nav{white-space:nowrap;padding:9px;font-size:12px;gap:5px}.nav span{font-size:15px;width:auto}.side-note{display:none}main{padding:18px}.top h1{font-size:23px}.hero{padding:20px}.hero h2{font-size:20px}.hero .hero-icon{font-size:45px}.stats{gap:8px}.stat{padding:12px}.stat .num{font-size:22px}.content-grid{grid-template-columns:1fr}.time{font-size:54px}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside>
+ <div class="brand"><div class="logo">✦</div> Умный помощник для Тилека</div>
+ <nav>
+  <button class="nav active" data-page="home"><span>⌂</span> Главная</button>
+  <button class="nav" data-page="schedule"><span>▦</span> Расписание</button>
+  <button class="nav" data-page="tasks"><span>✓</span> Задания</button>
+  <button class="nav" data-page="notes"><span>▤</span> Заметки</button>
+  <button class="nav" data-page="timer"><span>◷</span> Таймер</button>
+  <button class="nav" data-page="goals"><span>☆</span> Цели</button>
+ </nav>
+ <div class="side-note"><strong>Маленький шаг каждый день ✨</strong>Планируй дела, делай перерывы и отмечай свои успехи.</div>
+</aside>
+<main>
+ <div class="top"><div><div class="eyebrow" id="today"></div><h1 id="pageTitle">Главная</h1></div><div class="avatar">SS</div></div>
+ <section class="page active" id="home">
+  <div class="hero"><div><h2>Привет, Тилек! 👋</h2><p>Твои большие достижения начинаются<br>с небольших шагов. Давай всё спланируем.</p></div><div class="hero-icon">🎓</div></div>
+  <div class="stats">
+   <div class="stat"><div class="label">Задания выполнены</div><div class="num" id="doneStat">0</div><small>Продолжай в том же духе</small></div>
+   <div class="stat"><div class="label">Заметки</div><div class="num" id="noteStat">0</div><small>Идеи всегда под рукой</small></div>
+   <div class="stat"><div class="label">Цели выполнены</div><div class="num" id="goalStat">0</div><small>Ты приближаешься к цели</small></div>
+  </div>
+  <div class="content-grid"><div class="panel"><div class="panel-head"><h3>📌 Ближайшие задания</h3><button class="secondary" onclick="showPage('tasks')">Все задания</button></div><div id="homeTasks"></div></div><div class="panel"><h3>✨ Быстрые действия</h3><div class="row"><div class="dot"></div><div><strong>Добавить задание</strong><small>Не забудь важные дела</small></div><button class="secondary" onclick="showPage('tasks')">＋</button></div><div class="row"><div class="dot" style="background:#8068e8"></div><div><strong>Записать идею</strong><small>Сохрани важную мысль</small></div><button class="secondary" onclick="showPage('notes')">＋</button></div><div class="row"><div class="dot" style="background:#26a879"></div><div><strong>Начать учёбу</strong><small>25 минут концентрации</small></div><button class="secondary" onclick="showPage('timer')">▶</button></div></div></div>
+ </section>
+ <section class="page" id="schedule"><div class="panel"><h3>📅 Моё расписание</h3><p class="muted">Добавь пары или занятия по дням недели.</p><div class="form"><select id="schDay"><option>Понедельник</option><option>Вторник</option><option>Среда</option><option>Четверг</option><option>Пятница</option><option>Суббота</option><option>Воскресенье</option></select><input id="schTime" type="time" value="09:00"><input id="schTitle" placeholder="Название занятия"><button class="primary" onclick="addSchedule()">Добавить</button></div><div id="scheduleList"></div></div></section>
+ <section class="page" id="tasks"><div class="panel"><h3>✅ Домашние задания</h3><div class="form"><input id="taskTitle" placeholder="Например: подготовить доклад"><input id="taskDate" type="date"><button class="primary" onclick="addTask()">Добавить задание</button></div><div id="taskList"></div></div></section>
+ <section class="page" id="notes"><div class="panel"><h3>📝 Мои заметки</h3><div class="form"><input id="noteTitle" placeholder="Заголовок заметки"><textarea id="noteText" placeholder="Запиши сюда свою идею..."></textarea><button class="primary" onclick="addNote()">Сохранить заметку</button></div><div id="notesList"></div></div></section>
+ <section class="page" id="timer"><div class="panel timer-box"><div class="muted">ВРЕМЯ ДЛЯ КОНЦЕНТРАЦИИ</div><h3 id="timerLabel" style="margin-top:8px">Фокус-сессия</h3><div class="time" id="timeDisplay">25:00</div><div class="progress"><div id="timerProgress"></div></div><div class="timer-controls"><button class="primary" id="startBtn" onclick="toggleTimer()">▶ Начать</button><button class="secondary" onclick="resetTimer()">↻ Сбросить</button><button class="secondary" onclick="setBreak()">☕ Перерыв 5 мин</button></div><p class="muted" style="margin-top:20px">Совет: убери отвлекающие факторы и сосредоточься на одной задаче.</p></div></section>
+ <section class="page" id="goals"><div class="panel"><h3>🎯 Мои цели</h3><div class="form"><input id="goalTitle" placeholder="Например: выучить 10 английских слов"><button class="primary" onclick="addGoal()">Добавить цель</button></div><div id="goalsList"></div></div></section>
+ <footer>Умный помощник для Тилека · Личный помощник Тилека в учёбе</footer>
+</main>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+const load=(k)=>{try{return JSON.parse(localStorage.getItem('ss_'+k)||'[]')}catch{return []}};
+const save=(k,v)=>{localStorage.setItem('ss_'+k,JSON.stringify(v));render()};
+let tasks=load('tasks'), notes=load('notes'), goals=load('goals'), schedule=load('schedule');
+const titles={home:'Главная',schedule:'Расписание',tasks:'Задания',notes:'Заметки',timer:'Таймер учёбы',goals:'Мои цели'};
+function showPage(id){document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id===id));document.querySelectorAll('.nav').forEach(b=>b.classList.toggle('active',b.dataset.page===id));$('pageTitle').textContent=titles[id];}
+document.querySelectorAll('.nav').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.page)));
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function addTask(){let title=$('taskTitle').value.trim();if(!title)return alert('Введи название задания.');tasks.unshift({id:Date.now(),title,date:$('taskDate').value,done:false});$('taskTitle').value='';$('taskDate').value='';save('tasks',tasks)}
+function toggleTask(id){tasks=tasks.map(t=>t.id===id?{...t,done:!t.done}:t);save('tasks',tasks)}
+function deleteItem(type,id){if(type==='tasks')tasks=tasks.filter(x=>x.id!==id);if(type==='notes')notes=notes.filter(x=>x.id!==id);if(type==='goals')goals=goals.filter(x=>x.id!==id);if(type==='schedule')schedule=schedule.filter(x=>x.id!==id);save(type,{tasks,notes,goals,schedule}[type])}
+function addNote(){let title=$('noteTitle').value.trim(),text=$('noteText').value.trim();if(!title&&!text)return alert('Добавь заголовок или текст заметки.');notes.unshift({id:Date.now(),title:title||'Без названия',text,date:new Date().toLocaleDateString('ru-RU')});$('noteTitle').value='';$('noteText').value='';save('notes',notes)}
+function addGoal(){let title=$('goalTitle').value.trim();if(!title)return alert('Напиши свою цель.');goals.unshift({id:Date.now(),title,done:false});$('goalTitle').value='';save('goals',goals)}
+function toggleGoal(id){goals=goals.map(g=>g.id===id?{...g,done:!g.done}:g);save('goals',goals)}
+function addSchedule(){let title=$('schTitle').value.trim();if(!title)return alert('Введи название занятия.');schedule.push({id:Date.now(),day:$('schDay').value,time:$('schTime').value,title});$('schTitle').value='';save('schedule',schedule)}
+function render(){
+ $('doneStat').textContent=tasks.filter(t=>t.done).length;$('noteStat').textContent=notes.length;$('goalStat').textContent=goals.filter(g=>g.done).length;
+ const taskHtml=t=>`<div class="list-item ${t.done?'done':''}"><input class="check" type="checkbox" ${t.done?'checked':''} onchange="toggleTask(${t.id})"><div class="body"><strong>${esc(t.title)}</strong><small>${t.date?'Срок: '+esc(t.date):'Без срока'}</small></div><button class="danger" onclick="deleteItem('tasks',${t.id})">Удалить</button></div>`;
+ $('taskList').innerHTML=tasks.length?tasks.map(taskHtml).join(''):'<div class="empty">Пока нет заданий. Добавь первое выше!</div>';
+ $('homeTasks').innerHTML=tasks.filter(t=>!t.done).slice(0,4).map(t=>`<div class="row"><div class="dot"></div><div><strong>${esc(t.title)}</strong><small>${t.date?'Срок: '+esc(t.date):'Когда будет время'}</small></div></div>`).join('')||'<div class="empty">Отлично! Нет незавершённых заданий.</div>';
+ $('notesList').innerHTML=notes.map(n=>`<div class="note-card"><div class="panel-head"><strong>${esc(n.title)}</strong><button class="danger" onclick="deleteItem('notes',${n.id})">Удалить</button></div><p>${esc(n.text)}</p><small class="muted">${esc(n.date)}</small></div>`).join('')||'<div class="empty">Здесь появятся твои заметки.</div>';
+ $('goalsList').innerHTML=goals.map(g=>`<div class="list-item ${g.done?'done':''}"><input class="check" type="checkbox" ${g.done?'checked':''} onchange="toggleGoal(${g.id})"><div class="body"><strong>${esc(g.title)}</strong><small>${g.done?'Цель достигнута! 🎉':'Шаг за шагом — у тебя получится'}</small></div><button class="danger" onclick="deleteItem('goals',${g.id})">Удалить</button></div>`).join('')||'<div class="empty">Добавь цель, к которой хочешь прийти.</div>';
+ $('scheduleList').innerHTML=[...schedule].sort((a,b)=>a.day.localeCompare(b.day,'ru')||a.time.localeCompare(b.time)).map(s=>`<div class="list-item"><div class="dot"></div><div class="body"><strong>${esc(s.title)}</strong><small>${esc(s.day)} · ${esc(s.time)}</small></div><button class="danger" onclick="deleteItem('schedule',${s.id})">Удалить</button></div>`).join('')||'<div class="empty">Расписание пока пустое.</div>';
+}
+$('today').textContent=new Date().toLocaleDateString('ru-RU',{weekday:'long',day:'numeric',month:'long'});
+let remaining=25*60,total=25*60,interval=null;
+function updateTimer(){$('timeDisplay').textContent=String(Math.floor(remaining/60)).padStart(2,'0')+':'+String(remaining%60).padStart(2,'0');$('timerProgress').style.width=((total-remaining)/total*100)+'%'}
+function toggleTimer(){if(interval){clearInterval(interval);interval=null;$('startBtn').textContent='▶ Продолжить'}else{$('startBtn').textContent='Ⅱ Пауза';interval=setInterval(()=>{remaining--;updateTimer();if(remaining<=0){clearInterval(interval);interval=null;$('startBtn').textContent='▶ Начать';alert('Время вышло! Отличная работа. Сделай небольшой перерыв.')}},1000)}}
+function resetTimer(){clearInterval(interval);interval=null;remaining=total;$('startBtn').textContent='▶ Начать';updateTimer()}
+function setBreak(){clearInterval(interval);interval=null;total=remaining=5*60;$('timerLabel').textContent='Время перерыва';$('startBtn').textContent='▶ Начать';updateTimer()}
+render();updateTimer();
+</script>
+</body>
+</html>
